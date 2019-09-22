@@ -30,8 +30,12 @@
         self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
         self.searchController.searchBar.delegate = self;
 
-        self.navigationItem.searchController = self.searchController;
-        self.navigationItem.hidesSearchBarWhenScrolling = NO;
+        if ([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11,0,0}]) {
+            self.navigationItem.searchController = self.searchController;
+            self.navigationItem.hidesSearchBarWhenScrolling = NO;
+        } else {
+            self.navigationItem.titleView = self.searchController.searchBar;
+        }
 
         self.definesPresentationContext = YES;
 

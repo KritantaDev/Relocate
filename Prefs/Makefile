@@ -1,5 +1,5 @@
 ARCHS = arm64 arm64e
-TARGET = iphone:clang:11.2:11.2
+TARGET = iphone:clang:11.2:9.0
 
 include $(THEOS)/makefiles/common.mk
 
@@ -10,7 +10,7 @@ $(BUNDLE_NAME)_FRAMEWORKS = UIKit MapKit QuartzCore
 $(BUNDLE_NAME)_LIBRARIES = applist
 $(BUNDLE_NAME)_PRIVATE_FRAMEWORKS = Preferences
 $(BUNDLE_NAME)_EXTRA_FRAMEWORKS = Cephei CepheiPrefs
-ADDITIONAL_OBJCFLAGS = -fobjc-arc
+ADDITIONAL_OBJCFLAGS = -fobjc-arc -Wno-unguarded-availability-new
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 

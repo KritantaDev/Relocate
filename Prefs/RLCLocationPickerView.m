@@ -45,15 +45,24 @@
         [self.mapView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
     ]];
 
+    if ([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11,0,0}]) {
+        [NSLayoutConstraint activateConstraints:@[
+            [self.helpView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor constant:10],
+        ]];
+    } else {
+        [NSLayoutConstraint activateConstraints:@[
+            [self.helpView.topAnchor constraintEqualToAnchor:self.topAnchor constant:10],
+        ]];
+    }
+
     [NSLayoutConstraint activateConstraints:@[
-        [self.helpView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor constant:10],
         [self.helpView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
         [self.helpView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10],
         [self.helpView.heightAnchor constraintEqualToConstant:60],
     ]];
 
     CGFloat bottomInset = 0;
-    if (@available(iOS 11.0, *)) {
+    if ([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11,0,0}]) {
         bottomInset = self.safeAreaInsets.bottom;
     }
 
@@ -87,7 +96,7 @@
 
 -(void)layoutSubviews {
     CGFloat bottomInset = 0;
-    if (@available(iOS 11.0, *)) {
+    if ([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11,0,0}]) {
         bottomInset = self.safeAreaInsets.bottom;
     }
 
@@ -119,11 +128,11 @@
 
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-    MKMarkerAnnotationView *view = (id)[mapView dequeueReusableAnnotationViewWithIdentifier:@"annotation"];
+    MKAnnotationView *view = (id)[mapView dequeueReusableAnnotationViewWithIdentifier:@"annotation"];
     if (view) {
         view.annotation = annotation;
     } else {
-        view = [[MKMarkerAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"annotation"];
+        view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"annotation"];
         view.canShowCallout = true;
         
         if (annotation != self.pin) return view;
